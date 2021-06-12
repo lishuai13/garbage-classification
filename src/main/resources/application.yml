@@ -4,7 +4,7 @@ server:
 spring:
   datasource:
     username: root
-    password: 143188
+    password: ********
     url: jdbc:mysql://localhost:3306/garbage_classification?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
     driver-class-name: com.mysql.cj.jdbc.Driver
 
@@ -32,7 +32,7 @@ aliyun:
   oss:
     file:
       endpoint: oss-cn-shanghai.aliyuncs.com
-      keyid: LTAI5t8p9iCWyC3QSYztHWwc
-      keysecret: NB4xPHhhoGs4XNMAYTlN49qPM3Tn6J
+      keyid: ********
+      keysecret: ********
       bucketname: lishuai13
 
