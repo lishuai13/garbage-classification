@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lishuai.mapper.UserMapper">
+
+    <resultMap id="userMap" type="com.lishuai.entity.User">
+        <id column="user_id" property="userId"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="salt" property="salt"/>
+        <result column="telephone" property="telephone"/>
+        <result column="email" property="email"/>
+        <result column="score" property="score"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="avatar" property="avatar"/>
+        <result column="status" property="status"/>
+
+        <association property="role" javaType="com.lishuai.entity.Role">
+            <result column="rid" property="roleId" />
+            <result column="rname" property="roleName"/>
+        </association>
+    </resultMap>
+
+    <select id="findRolesByUserName" parameterType="String" resultMap="userMap">
+        SELECT u.user_id,u.username,u.password,u.salt,u.telephone,u.email,u.score,u.create_time,u.update_time,u.avatar,u.status,r.role_id rid,r.role_name rname
+        FROM user u
+        LEFT JOIN role r
+        ON u.role_id=r.role_id
+        WHERE u.username=#{username}
+    </select>
+
+    <select id="getAllUser" resultType="com.lishuai.entity.User">
+        select * from user where 1=1
+        <if test="keywords!=null">
+            and username like concat('%',#{keywords},'%')
+        </if>
+    </select>
+
+    <insert id="addScore">
+        update user set score=score+1 where user_id=#{userId};
+    </insert>
+
+    <update id="editUser">
+        update user set
+        <trim>
+            <if test="email !=null and company !=''">email=#{email},</if>
+            <if test="telephone !=null and telephone !=''">telephone=#{telephone}</if>
+        </trim>
+        where user_id=#{userId};
+    </update>
+
+    <update id="updateAvatar">
+        update user set avatar = #{avatar} where  user_id =#{userId};
+    </update>
+
+    <update id="updatePassword">
+        update user set password = #{password},salt=#{salt} where  user_id =#{userId};
+    </update>
+
+    <update id="adminEditUser">
+        update user set
+        <trim>
+            <if test="username !=null and username !=''">username=#{username},</if>
+            <if test="email !=null and company !=''">email=#{email},</if>
+            <if test="telephone !=null and telephone !=''">telephone=#{telephone},</if>
+        </trim>
+        score=#{score} where user_id=#{userId};
+    </update>
+
+    <update id="changUserStatus">
+        update user set status = #{status} where  user_id =#{userId};
+    </update>
+</mapper>

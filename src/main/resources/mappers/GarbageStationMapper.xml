@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lishuai.mapper.GarbageStationMapper">
+
+    <resultMap id="GarbageStationVOMap" type="com.lishuai.entity.vo.GarbageStationVO">
+        <result column="station_id" property="stationId"/>
+        <result column="station_name" property="stationName"/>
+        <collection property="categoryCapacitys" javaType="list" ofType="com.lishuai.entity.CategoryCapacity">
+            <result column="category_id" property="categoryId"/>
+            <result column="category_name" property="categoryName"/>
+            <result column="capacity_number" property="capacityNumber"/>
+        </collection>
+    </resultMap>
+
+    <update id="changeCapacity">
+        update capacity set capacity_number =#{capacityNumber} where station_id=#{stationId} and category_id=#{categoryId}
+    </update>
+
+    <select id="getStationInfo" resultMap="GarbageStationVOMap">
+        SELECT gs.station_id,gs.station_name ,cl.category_id,cl.category_name,ca.capacity_number
+        FROM garbage_station gs
+        LEFT JOIN capacity ca
+        ON gs.station_id= ca.station_id
+        LEFT JOIN classification cl
+        ON ca.category_id=cl.category_id
+    </select>
+</mapper>

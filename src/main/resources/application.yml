@@ -1,0 +1,38 @@
+server:
+  port: 8081
+
+spring:
+  datasource:
+    username: root
+    password: 143188
+    url: jdbc:mysql://localhost:3306/garbage_classification?serverTimezone=Asia/Shanghai&characterEncoding=utf-8
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  redis:
+    host: 127.0.0.1
+    database: 1
+
+  jackson:
+    time-zone: Asia/Shanghai
+
+  #最大支持文件大小
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+#mybatis-plus
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mappers/*.xml
+  type-aliases-package: com.lishuai.entity
+
+# oss 属性自定义
+aliyun:
+  oss:
+    file:
+      endpoint: oss-cn-shanghai.aliyuncs.com
+      keyid: LTAI5t8p9iCWyC3QSYztHWwc
+      keysecret: NB4xPHhhoGs4XNMAYTlN49qPM3Tn6J
+      bucketname: lishuai13
+
